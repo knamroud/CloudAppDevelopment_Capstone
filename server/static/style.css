@@ -1,0 +1,61 @@
+body {
+    background-color: #2a2a2a;
+    font-family: Arial, sans-serif;
+}
+
+.car-card {
+    border: 1px solid #FF69B4;
+    margin: 10px;
+    padding: 20px;
+    border-radius: 15px;
+    background-color: white;
+}
+
+.car-card h2 {
+    color: #FF1493;
+}
+
+.car-card p {
+    color: #000000;
+}
+
+.button {
+    background-color: #FF69B4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+p {
+    color: #FF69B4;
+    font-size: 18px;
+    line-height: 1.6;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+.navbar {
+    background-color: #FFC0CB;
+    padding: 10px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.navbar a {
+    color: #FF1493;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #FF1493;
+    font-weight: bold;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
