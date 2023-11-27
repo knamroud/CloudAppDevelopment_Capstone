@@ -30,7 +30,6 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-db.sqlite3
 Pipfile*
 
 # PyInstaller
