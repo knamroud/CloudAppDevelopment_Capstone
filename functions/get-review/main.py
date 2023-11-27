@@ -3,14 +3,14 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 
 def main(param_dict):
-    authenticator = IAMAuthenticator(param_dict["IAM_API_KEY"])
-    client = CloudantV1(authenticator=authenticator)
-    client.set_service_url(param_dict["COUCH_URL"])
-    response = client.post_find(
-        db='reviews',
-        selector={'dealership': {'$eq': int(param_dict['id'])}},
-    ).get_result()
-    try: 
+    try:
+        authenticator = IAMAuthenticator(param_dict["IAM_API_KEY"])
+        client = CloudantV1(authenticator=authenticator)
+        client.set_service_url(param_dict["COUCH_URL"])
+        response = client.post_find(
+            db='reviews',
+            selector={'dealership': {'$eq': int(param_dict['dealerId'])}},
+        ).get_result()
         result= {
             'headers': {'Content-Type':'application/json'}, 
             'body': {'data':response} 
