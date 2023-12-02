@@ -20,12 +20,11 @@ jobs: # list of things to do
         uses: actions/checkout@v3
 
       - name: Install Dependencies
-        run: npm install
-        working-directory: functions/sample/nodejs
-
+        run: npm install lint --save-dev
+        working-directory: functions/get-dealership
       - name: Code Linting
         run: npm run lint
-        working-directory: functions/sample/nodejs
+        working-directory: functions/get-dealership
     
 
   lint_function_python:
@@ -44,7 +43,10 @@ jobs: # list of things to do
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Lint with Pylint
         run: pylint *.py
-        working-directory: functions/sample/python
+        working-directory: functions/add-review
+      - name: Lint with Pylint
+        run: pylint *.py
+        working-directory: functions/get-review
 
   lint_django_server:
     name: Linting Django Server 
