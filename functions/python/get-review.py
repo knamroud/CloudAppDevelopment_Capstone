@@ -11,13 +11,13 @@ def main(param_dict):
             db='reviews',
             selector={'dealership': {'$eq': int(param_dict['dealerId'])}},
         ).get_result()
-        result= {
-            'headers': {'Content-Type':'application/json'}, 
-            'body': {'data':response} 
-            }        
+        result = {
+            'headers': {'Content-Type': 'application/json'},
+            'body': {'data': response}
+        }
         return result
-    except:  
-        return { 
-            'statusCode': 404, 
+    except:
+        return {
+            'statusCode': 404,
             'message': 'Something went wrong'
-            }
+        }

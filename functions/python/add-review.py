@@ -7,18 +7,16 @@ def main(param_dict):
     client = CloudantV1(authenticator=authenticator)
     client.set_service_url(param_dict["COUCH_URL"])
 
-    new_review = client.post_document(db="reviews", document=param_dict["review"])   
-    
+    new_review = client.post_document(
+        db="reviews", document=param_dict["review"])
     if new_review.exists():
         result = {
             "headers": {"Content-Type": "application/json"},
             "body": {"message": "Review posted successfully."}
         }
-    
         print(new_review)
         return result
-        
-    else: 
+    else:
         error_json = {
             "statusCode": 500,
             "message": "Could not post review due to server error."
