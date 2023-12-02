@@ -2,13 +2,14 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
-# from .models import related models
-# from .restapis import related methods
+from django.contrib.auth.decorators import login_required
+from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
 import logging
-import json
+import os
+from .restapis import post_request
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -49,18 +50,38 @@ def registration_request(request):
     user.save()
     login(request, user)
     return redirect("djangoapp:index")
-# Update the `get_dealerships` view to render the index page with a list of dealerships
+
 def get_dealerships(request):
-    context = {}
     if request.method == "GET":
-        return render(request, 'djangoapp/index.html', context)
+        url = os.environ["GET_DEALERSHIP"]
+        # Get dealers from the URL
+        dealerships = get_dealers_from_cf(url)
+        # Concat all dealer's short name
+        dealer_names = ' '.join([dealer.short_name for dealer in dealerships])
+        # Return a list of dealer short name
+        return HttpResponse(dealer_names)
 
-
-# Create a `get_dealer_details` view to render the reviews of a dealer
-# def get_dealer_details(request, dealer_id):
-# ...
-
-# Create a `add_review` view to submit a review
-# def add_review(request, dealer_id):
-# ...
-
+def get_dealer_details(request, dealer_id):
+    if request.method == "GET":
+        url = os.environ["GET_REVIEW"]
+        # Get dealers from the URL
+        reviews = get_dealer_reviews_from_cf(url, dealer_id)
+        review_content = '\n'.join([f"{review.name}: {review.review} - {review.sentiment}" for review in reviews])
+        return HttpResponse(review_content)
+              
+@login_required
+def add_review(request, dealer_id):
+    url = os.environ['ADD_REVIEW']
+    review = {} 
+    review["time"] = datetime.utcnow().isoformat()
+    review["dealership"] = dealer_id
+    review["review"] = request.POST.get("content")
+    review["purchase"] = request.POST.get("purchasecheck")
+    review["purchase_date"] = request.POST.get("purchasedate")
+    review["car_make"] = request.POST.get("carmake")
+    review["car_model"] = request.POST.get("carmodel")
+    review["car_year"] = request.POST.get("caryear")
+    review["name"] = request.user.username
+    json_payload = {}
+    json_payload["review"] = review
+    return post_request(url, json_payload, dealerId=dealer_id)
