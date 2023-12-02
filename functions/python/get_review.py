@@ -19,6 +19,7 @@ def main(param_dict):
         ).get_result()
         result = {
             'headers': {'Content-Type': 'application/json'},
+            'statusCode': 200,
             'body': {'data': response}
         }
         return result
