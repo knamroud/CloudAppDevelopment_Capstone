@@ -1,12 +1,13 @@
 const { CloudantV1 } = require('@ibm-cloud/cloudant');
 const { IamAuthenticator } = require('ibm-cloud-sdk-core');
 
-function main(params) {
+async function main(params) {
 
     const authenticator = new IamAuthenticator({ apikey: params.IAM_API_KEY })
     const cloudant = CloudantV1.newInstance({
       authenticator: authenticator
     });
+    const dbname = "dealerships";
     cloudant.setServiceUrl(params.COUCH_URL);
     let selector = {};
     if (params.state)
@@ -14,9 +15,15 @@ function main(params) {
     if (params.id)
         selector._id = params.id;
     if (Object.keys(selector).length > 0)
-        return getRecordsBySelection(cloudant, dbname, selector);
+        result = await getRecordsBySelection(cloudant, dbname, selector);
     else
-        return getAllRecords(cloudant, dbname);
+        result = await getAllRecords(cloudant, dbname);
+
+    return {
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(result)
+    };
 }
 
  function getAllRecords(cloudant,dbname) {
