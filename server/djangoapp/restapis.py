@@ -16,10 +16,10 @@ def get_request(url, api_key=None, **kwargs):
         if api_key:
             print("With api key {} ".format(api_key))
             response = requests.get(url, headers={'Content-Type': 'application/json'},
-                                    params=kwargs, auth=HTTPBasicAuth('apikey', api_key))
+                                    params=kwargs, json=kwargs, auth=HTTPBasicAuth('apikey', api_key))
         else:
             response = requests.get(url, headers={'Content-Type': 'application/json'},
-                                    params=kwargs)
+                                    params=kwargs, json=kwargs)
     except:
         # If any error occurs
         print("Network exception occurred")
@@ -70,9 +70,9 @@ def get_dealers_from_cf(url, **kwargs):
 
 def get_dealer_by_id(url, dealerId):
     # Call get_request with a URL parameter
-    json_result = get_request(url, dealerId=dealerId)["result"]
+    json_result = get_request(url, id=int(dealerId))["result"]
     if json_result:
-        dealer_doc = json_result["doc"]
+        dealer_doc = json_result[0]
         # Create a CarDealer object with values in `doc` object
         dealer_obj = CarDealer(address=dealer_doc["address"], city=dealer_doc["city"], full_name=dealer_doc["full_name"],
                                 id=dealer_doc["id"], lat=dealer_doc["lat"], long=dealer_doc["long"],
