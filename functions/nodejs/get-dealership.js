@@ -11,9 +11,9 @@ async function main(params) {
     cloudant.setServiceUrl(params.COUCH_URL);
     let selector = {};
     if (params.state)
-        selector.state =  params.state
+        selector.st =  params.state
     if (params.id)
-        selector._id = params.id;
+        selector.id = params.id;
     if (Object.keys(selector).length > 0)
         result = await getRecordsBySelection(cloudant, dbname, selector);
     else
@@ -28,7 +28,7 @@ async function main(params) {
 
  function getAllRecords(cloudant,dbname) {
      return new Promise((resolve, reject) => {
-         cloudant.postAllDocs({ db: dbname, includeDocs: true, limit: 10 })
+         cloudant.postAllDocs({ db: dbname, includeDocs: true })
              .then((result)=>{
                resolve({result:result.result.rows});
              })
