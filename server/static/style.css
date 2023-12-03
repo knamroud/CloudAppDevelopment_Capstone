@@ -1,5 +1,5 @@
 body {
-    background-color: #2a2a2a;
+    background-color: #2A2A2A;
     font-family: Arial, sans-serif;
 }
 
@@ -54,7 +54,12 @@ p {
     font-size: 20px;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     color: #FF1493;
     font-weight: bold;
     font-family: 'Comic Sans MS', cursive, sans-serif;
@@ -78,4 +83,31 @@ input[type=submit] {
     cursor: pointer;
     border-radius: 12px;
     font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+#table {
+    margin-top: 10px;
+    border-collapse: collapse;
+    width: 100%;
+    color: #FFFFFF;
+    background-color: #2A2A2A;
+}
+
+#table th {
+    background-color: #FFC0CB;
+    padding: 10px;
+    color: #FF1493;
+}
+
+#table tr {
+    border-bottom: 1px solid #FFC0CB;
+}
+
+#table td {
+    padding: 10px;
+}
+
+#table tr:hover {
+    background-color: #FF69B4;
+    color: #000000;
 }

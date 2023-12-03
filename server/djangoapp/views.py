@@ -56,10 +56,7 @@ def get_dealerships(request):
         url = os.environ["GET_DEALERSHIP"]
         # Get dealers from the URL
         dealerships = get_dealers_from_cf(url)
-        # Concat all dealer's short name
-        dealer_names = ' '.join([dealer.short_name for dealer in dealerships])
-        # Return a list of dealer short name
-        return HttpResponse(dealer_names)
+        return render(request, 'djangoapp/index.html', {'dealerships': dealerships})
 
 def get_dealer_details(request, dealer_id):
     if request.method == "GET":
