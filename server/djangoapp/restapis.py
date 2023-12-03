@@ -69,7 +69,6 @@ def get_dealers_from_cf(url, **kwargs):
     return results
 
 def get_dealer_by_id(url, dealerId):
-    results = []
     # Call get_request with a URL parameter
     json_result = get_request(url, dealerId=dealerId)["result"]
     if json_result:
@@ -79,8 +78,7 @@ def get_dealer_by_id(url, dealerId):
                                 id=dealer_doc["id"], lat=dealer_doc["lat"], long=dealer_doc["long"],
                                 short_name=dealer_doc["short_name"],
                                 st=dealer_doc["st"], zip=dealer_doc["zip"])
-        results.append(dealer_obj)
-    return results[0]
+        return dealer_obj
 
 def get_dealers_by_state(url, state):
     results = []
