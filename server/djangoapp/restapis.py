@@ -107,9 +107,12 @@ def get_dealer_reviews_from_cf(url, dealerId):
         # For each dealer object
         for review_doc in json_result:
             # Create a CarDealer object with values in `doc` object
-            review_obj = DealerReview(dealership=review_doc["dealership"], name=review_doc["name"], purchase=review_doc["purchase"],
-                                    review=review_doc["review"], purchase_date=review_doc["purchase_date"], car_make=review_doc["car_make"],
-                                    car_model=review_doc["car_model"], car_year=review_doc["car_year"], sentiment=analyze_review_sentiments(review_doc["review"]), id=review_doc["id"])
+            review_obj = DealerReview(
+                dealership=review_doc.get("dealership", ""), name=review_doc.get("name", ""), purchase=review_doc.get("purchase", ""),
+                review=review_doc.get("review", ""), purchase_date=review_doc.get("purchase_date", ""), car_make=review_doc.get("car_make", ""),
+                car_model=review_doc.get("car_model", ""), car_year=review_doc.get("car_year", ""),
+                sentiment=analyze_review_sentiments(review_doc.get("review", "")), id=review_doc.get("id", "")
+            )
             results.append(review_obj)
 
     return results
