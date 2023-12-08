@@ -1,18 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Dealership Review</title>
-    {% load static %}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-</head>
-
-    <body>
-
-    <!--Add a nav bar here -->
-
-    <!-- Add reviews as cards -->
-
-    </body>
-
-</html>
+{% extends '../base.html' %}
+{% block content %}
+<h2>{{ dealer.full_name }}</h2>
+<p>{{ dealer.address }}</p>
+{% if reviews %}
+<p>Reviews for {{ dealer.short_name }}</p>
+<div class="row">
+    {% for review in reviews %}
+    <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
+        <div class="card">
+            <div class="card-header d-flex align-items-center">
+                {% if review.sentiment == 'positive' %}
+                <img width="50px" height="50px" class="card-img-left" src="{{MEDIA_URL}}emoji/positive.png">
+                {% elif review.sentiment == 'negative' %}
+                <img width="50px" height="50px" class="card-img-left" src="{{MEDIA_URL}}emoji/negative.png">
+                {% else %}
+                <img width="50px" height="50px" class="card-img-left" src="{{MEDIA_URL}}emoji/neutral.png">
+                {% endif %}
+                <h5 class="card-title mb-0 ml-3">{{ review.name }}</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{ review.review }}</p>
+                {% if review.purchase %}
+                <p class="card-text"><small class="text-muted">{{ review.car_make }} {{review.car_model}}, {{ review.car_year }} - {{ review.purchase_date }}</small></p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>No reviews found for {{dealer.full_name}}</p>
+{% endif %}
+{% if user.is_authenticated %}
+<a href="{% url 'djangoapp:add_review' dealer_id}">
+<div class="add-review-button">
+    <button>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Add a review
+    </button>
+</div>
+</a>
+{% endif %}
+{% endblock content %}
