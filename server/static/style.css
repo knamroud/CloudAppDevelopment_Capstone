@@ -111,3 +111,49 @@ input[type=submit] {
     background-color: #FF69B4;
     color: #000000;
 }
+
+.add-review-button {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+}
+
+.add-review-button button {
+    background-color: #FF69B4;
+    color: #FFFFFF;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.add-review-button svg {
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.card .card-header {
+    background-color: #5A5A5A;
+    border-color: #FFC0CB;
+}
+
+.card .card-body {
+    background-color: #3A3A3A;
+    border-color: #FFC0CB; 
+}
+
+.card-title {
+    color: #FFC0CB;
+}
+
+.card-text {
+    color: #FFFFFF;
+}
+
+.text-muted {
+    color: #808080;
+}
