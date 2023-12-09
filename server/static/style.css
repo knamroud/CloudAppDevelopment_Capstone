@@ -157,3 +157,29 @@ input[type=submit] {
 .text-muted {
     color: #808080;
 }
+
+#purchasedate {
+    color: #FF1493;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+#purchase {
+    transform: scale(1.5);
+    border: 1px solid #FF1493;
+    width: 20px;
+    height: 20px;
+    margin-left: 15px;
+}
+
+#car {
+    color: #FF1493;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
