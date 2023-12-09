@@ -76,15 +76,13 @@ def add_review(request, dealer_id):
         form = ReviewForm(data, dealership=dealer_id, name=request.user.username)
         url = os.environ['ADD_REVIEW']
         if form.is_valid():
-            print(form.cleaned_data)
             data = form.cleaned_data.copy()
             data["purchase_date"] = data["purchase_date"].strftime("%m/%d/%Y")
             car = CarModel.objects.get(pk=data["car"])
             data["car_make"] = car.make.name
             data["car_model"] = car.name
             data["car_year"] = car.year.year
-            print(post_request(url, {"review":data}))
+            post_request(url, {"review":data})
             return redirect("djangoapp:dealer_details", dealer_id=dealer_id)
         else:
-            print(form.errors)
             return render(request, 'djangoapp/add_review.html', {'dealer_id': dealer_id, 'form': form})
