@@ -2,14 +2,15 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.conf import settings
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf, get_dealer_by_id
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
-from datetime import datetime
 import logging
 import os
+from .forms import ReviewForm
+from .models import CarModel
 from .restapis import post_request
 
 # Get an instance of a logger
@@ -66,17 +67,24 @@ def get_dealer_details(request, dealer_id):
 
 @login_required
 def add_review(request, dealer_id):
-    url = os.environ['ADD_REVIEW']
-    review = {} 
-    review["time"] = datetime.utcnow().isoformat()
-    review["dealership"] = dealer_id
-    review["review"] = request.POST.get("content")
-    review["purchase"] = request.POST.get("purchasecheck")
-    review["purchase_date"] = request.POST.get("purchasedate")
-    review["car_make"] = request.POST.get("carmake")
-    review["car_model"] = request.POST.get("carmodel")
-    review["car_year"] = request.POST.get("caryear")
-    review["name"] = request.user.username
-    json_payload = {}
-    json_payload["review"] = review
-    return post_request(url, json_payload, dealerId=dealer_id)
+    if request.method == "GET":
+        return render(request, 'djangoapp/add_review.html', {'dealer_id': dealer_id,'form': ReviewForm(dealership=dealer_id, name=request.user.username)})
+    elif request.method == "POST":
+        data = request.POST.copy()
+        data["dealership"] = dealer_id
+        data["name"] = request.user.username
+        form = ReviewForm(data, dealership=dealer_id, name=request.user.username)
+        url = os.environ['ADD_REVIEW']
+        if form.is_valid():
+            print(form.cleaned_data)
+            data = form.cleaned_data.copy()
+            data["purchase_date"] = data["purchase_date"].strftime("%m/%d/%Y")
+            car = CarModel.objects.get(pk=data["car"])
+            data["car_make"] = car.make.name
+            data["car_model"] = car.name
+            data["car_year"] = car.year.year
+            print(post_request(url, {"review":data}))
+            return redirect("djangoapp:dealer_details", dealer_id=dealer_id)
+        else:
+            print(form.errors)
+            return render(request, 'djangoapp/add_review.html', {'dealer_id': dealer_id, 'form': form})
