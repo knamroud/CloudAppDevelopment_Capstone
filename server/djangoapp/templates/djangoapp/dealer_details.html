@@ -32,7 +32,7 @@
 <p>No reviews found for {{dealer.full_name}}</p>
 {% endif %}
 {% if user.is_authenticated %}
-<a href="{% url 'djangoapp:add_review' dealer_id}">
+<a href="{% url 'djangoapp:add_review' dealer.id %}">
 <div class="add-review-button">
     <button>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
