@@ -28,5 +28,5 @@ spec:
           protocol: TCP
         envFrom:
         - configMapRef:
-          name: dealership-config
+            name: dealership-config
       restartPolicy: Always
